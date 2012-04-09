@@ -23,7 +23,7 @@ public class SensorsDemoActivity extends Activity implements
 		out = (TextView) findViewById(R.id.out);
 
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class SensorsDemoActivity extends Activity implements
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		out.setText(String.format("%.2f, %.2f, %.2f", event.values[0],
-				event.values[1], event.values[2]));
+		out.setText(String.format("Azimuth: %3.0f \nPitch: %3.0f \nRoll: %3.0f",
+				event.values[0], event.values[1], event.values[2]));
 	}
 
 }

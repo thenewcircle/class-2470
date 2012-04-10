@@ -19,9 +19,11 @@ public class SensorsDemoActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Setup the UI
 		setContentView(R.layout.main);
 		out = (TextView) findViewById(R.id.out);
 
+		// Setup Sensor Manager
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 	}
@@ -39,6 +41,7 @@ public class SensorsDemoActivity extends Activity implements
 		sensorManager.unregisterListener(this);
 	}
 
+	// --- Sensor Manager Callbacks ---
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}

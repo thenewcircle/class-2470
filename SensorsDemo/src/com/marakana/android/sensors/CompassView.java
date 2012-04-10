@@ -3,7 +3,6 @@ package com.marakana.android.sensors;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -36,7 +35,7 @@ public class CompassView extends ImageView {
 	 * Given measurement specification, returns a measured size.
 	 * 
 	 * @param spec
-	 *            Measurement Spec
+	 *            View.MeasureSpec
 	 * @return size
 	 */
 	private int measure(int spec) {
@@ -52,9 +51,6 @@ public class CompassView extends ImageView {
 			size = View.MeasureSpec.getSize(spec) / 2;
 			break;
 		}
-		Log.d("CompassView", String.format("mode: %d, size: %d, resized: %d ",
-				View.MeasureSpec.getMode(spec), View.MeasureSpec.getSize(spec),
-				size));
 		return size;
 	}
 }

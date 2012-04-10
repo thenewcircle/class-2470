@@ -13,21 +13,32 @@ import com.marakana.java.android.parser.Post;
 
 public class RssDemoActivity extends Activity {
 	private FeedParser feed;
-	private String feedUrl = "http://rss.cnn.com/rss/cnn_topstories.rss";
+	private String feedUrl = "http://marakana.com/s/feed.rss";
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Workaround for Intel proxy for emulator
+        System.setProperty("http.proxyHost", "proxy.rr.intel.com");
+        System.setProperty("http.proxyPort", "911");
+        
         setContentView(R.layout.main);
         
         // Get the feed from the parser factory
         feed = FeedParserFactory.getParser(feedUrl, ParserType.SAX);
         
         // Parse the feed
-        List<Post> posts = feed.parse();
-        for( Post post: posts ) {
-        		Log.d("RssDemo", post.toString());
-        }
+        new ParseFeedThread().start();
+    }
+    
+    class ParseFeedThread extends Thread {
+    		public void run() {
+    	        List<Post> posts = feed.parse();
+    	        for( Post post: posts ) {
+    	        		Log.d("RssDemo", post.getTitle() );
+    	        }
+    		}
     }
 }

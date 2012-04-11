@@ -69,19 +69,20 @@ public class Post implements Comparable<Post>{
 	
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Title: ");
-		sb.append(title);
-		sb.append('\n');
-		sb.append("Date: ");
-		sb.append(this.getDate());
-		sb.append('\n');
-		sb.append("Link: ");
-		sb.append(link);
-		sb.append('\n');
-		sb.append("Description: ");
-		sb.append(description);
-		return sb.toString();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("Title: ");
+//		sb.append(title);
+//		sb.append('\n');
+//		sb.append("Date: ");
+//		sb.append(this.getDate());
+//		sb.append('\n');
+//		sb.append("Link: ");
+//		sb.append(link);
+//		sb.append('\n');
+//		sb.append("Description: ");
+//		sb.append(description);
+//		return sb.toString();
+		return getTitle();
 	}
 
 	@Override

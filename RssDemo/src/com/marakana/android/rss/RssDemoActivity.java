@@ -6,7 +6,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.marakana.java.android.parser.FeedParser;
@@ -17,7 +18,8 @@ import com.marakana.java.android.parser.Post;
 public class RssDemoActivity extends Activity {
 	private static final String feedUrl = "http://marakana.com/s/feed.rss";
 	private static Toast noDataToast;
-	private TextView out;
+	private ListView list;
+	private ArrayAdapter<Post> adapter;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -31,8 +33,13 @@ public class RssDemoActivity extends Activity {
 		// Setup UI
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main);
-		out = (TextView) findViewById(R.id.out);
+		list = (ListView) findViewById(R.id.list);
 		noDataToast = Toast.makeText(this, "No data at this point", Toast.LENGTH_LONG);
+		
+		// Setup the adapter
+		adapter = new ArrayAdapter<Post>(this, android.R.layout.simple_list_item_1);
+		adapter.setNotifyOnChange(true);
+		list.setAdapter(adapter);
 
 		// Parse the feed
 		new FeedParserTask().execute(feedUrl);
@@ -79,10 +86,10 @@ public class RssDemoActivity extends Activity {
 				noDataToast.show();
 				return;
 			}
-			// Display all the posts
-			for (Post post : posts) {
-				out.append(post.getTitle() + "\n");
-			}
+			
+			// Update the adapter
+			adapter.clear();
+			adapter.addAll(posts);
 		}
 
 	}

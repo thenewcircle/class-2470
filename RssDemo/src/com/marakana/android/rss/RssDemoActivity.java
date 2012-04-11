@@ -5,10 +5,9 @@ import java.util.List;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marakana.java.android.parser.FeedParser;
 import com.marakana.java.android.parser.FeedParserFactory;
@@ -16,7 +15,8 @@ import com.marakana.java.android.parser.ParserType;
 import com.marakana.java.android.parser.Post;
 
 public class RssDemoActivity extends Activity {
-	private String feedUrl = "http://marakana.com/s/feed.rss";
+	private static final String feedUrl = "http://marakana.com/s/feed.rss";
+	private static Toast noDataToast;
 	private TextView out;
 
 	/** Called when the activity is first created. */
@@ -32,6 +32,7 @@ public class RssDemoActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main);
 		out = (TextView) findViewById(R.id.out);
+		noDataToast = Toast.makeText(this, "No data at this point", Toast.LENGTH_LONG);
 
 		// Parse the feed
 		new FeedParserTask().execute(feedUrl);
@@ -55,11 +56,14 @@ public class RssDemoActivity extends Activity {
 		@Override
 		protected List<Post> doInBackground(String... params) {
 			// Get the feed from the parser factory
-			
-			// TODO Handle the exception in case we can't parse the feed url
-			FeedParser feed = FeedParserFactory.getParser(params[0],
-					ParserType.SAX);
-			return feed.parse();
+
+			try {
+				FeedParser feed = FeedParserFactory.getParser(params[0],
+						ParserType.SAX);
+				return feed.parse();
+			} catch (Exception e) {
+				return null;
+			}
 		}
 
 		/**
@@ -68,11 +72,17 @@ public class RssDemoActivity extends Activity {
 		 */
 		@Override
 		protected void onPostExecute(List<Post> posts) {
+			// Stop the progress bar
+			setProgressBarIndeterminateVisibility(false);
+
+			if (posts == null) {
+				noDataToast.show();
+				return;
+			}
+			// Display all the posts
 			for (Post post : posts) {
 				out.append(post.getTitle() + "\n");
 			}
-			// Stop the progress bar
-			setProgressBarIndeterminateVisibility(false);
 		}
 
 	}

@@ -1,15 +1,17 @@
 package com.marakana.android.rss;
 
-import android.app.ListActivity;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.Window;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class RssDemoActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class RssDemoActivity extends FragmentActivity implements
+		LoaderManager.LoaderCallbacks<Cursor> {
 	private static final String[] FROM = { RssContract.Columns.TITLE };
 	private static final int[] TO = { android.R.id.text1 };
 	private SimpleCursorAdapter adapter;
@@ -19,23 +21,26 @@ public class RssDemoActivity extends ListActivity implements LoaderManager.Loade
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
 		// Setup the adapter
 		adapter = new SimpleCursorAdapter(this,
 				android.R.layout.simple_list_item_1, null, FROM, TO);
-		setListAdapter(adapter);
+
+		// Setup the UI
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		setContentView(R.layout.main);
+		((ListView) findViewById(R.id.list)).setAdapter(adapter);
 		
 		// Initialize the loader
-		getLoaderManager().initLoader(47, null, this);
+		getSupportLoaderManager().initLoader(47, null, this);
 	}
 
 	// --- LoaderManager.LoaderCallbacks<Cursor> callbacks ---
-	
+
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		setProgressBarIndeterminateVisibility(true);
-		return new CursorLoader(this, RssContract.CONTENT_URI, null, null, null, null);
+		return new CursorLoader(this, RssContract.CONTENT_URI, null, null,
+				null, null);
 	}
 
 	@Override

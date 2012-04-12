@@ -4,7 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="14" />
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="14" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -25,7 +27,6 @@
             android:name=".RssProvider"
             android:authorities="com.marakana.android.rss.provider" >
         </provider>
-        
     </application>
 
 </manifest>

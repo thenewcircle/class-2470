@@ -5,15 +5,20 @@
     android:orientation="vertical" >
 
     <Button
-        android:onClick="onClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="Go" />
 
-    <TextView
-        android:id="@+id/out"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/out"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </ScrollView>
 
 </LinearLayout>

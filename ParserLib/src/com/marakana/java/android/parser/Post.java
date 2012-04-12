@@ -94,7 +94,7 @@ public class Post implements Comparable<Post>{
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((link == null) ? 0 : link.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+		return Math.abs(result);
 	}
 	
 	@Override

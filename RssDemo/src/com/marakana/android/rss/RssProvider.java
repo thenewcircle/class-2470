@@ -8,6 +8,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.marakana.java.android.parser.FeedParser;
 import com.marakana.java.android.parser.FeedParserFactory;
@@ -15,6 +16,7 @@ import com.marakana.java.android.parser.ParserType;
 import com.marakana.java.android.parser.Post;
 
 public class RssProvider extends ContentProvider {
+	private static final String TAG = "RssProvider";
 	private static final String FEED_URL = "http://marakana.com/s/feed.rss";
 	private static final UriMatcher URI_MATCHER = new UriMatcher(
 			UriMatcher.NO_MATCH);
@@ -62,13 +64,25 @@ public class RssProvider extends ContentProvider {
 			return null;
 		}
 
-		// Copy posts to cursor
-		for (Post post : posts) {
-			cursor.newRow().add(post.hashCode()).add(post.getTitle())
-					.add(post.getLink()).add(post.getDescription())
-					.add(post.getDate());
+		Log.d(TAG, uri+" query with matched uri: "+ URI_MATCHER.match(uri));
+		
+		int post_id = -1;
+		// Check for Uri type
+		if (URI_MATCHER.match(uri) == POST_ITEM) {
+			post_id = Integer.parseInt(uri.getLastPathSegment());
+			Log.d(TAG, "post_id: " + post_id);
 		}
 
+		// Copy posts to cursor
+		for (Post post : posts) {
+			if (post_id == -1 || post.hashCode() == post_id) {
+				cursor.newRow().add(post.hashCode()).add(post.getTitle())
+						.add(post.getLink()).add(post.getDescription())
+						.add(post.getDate());
+			}
+		}
+
+		Log.d(TAG, "query returning cursor of size: " + cursor.getCount());
 		return cursor;
 	}
 

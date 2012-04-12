@@ -1,12 +1,16 @@
 package com.marakana.android.rss;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
@@ -28,7 +32,18 @@ public class RssDemoActivity extends FragmentActivity implements
 		// Setup the UI
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.main);
-		((ListView) findViewById(R.id.list)).setAdapter(adapter);
+		ListView list = (ListView) findViewById(R.id.list);
+		list.setAdapter(adapter);
+		list.setOnItemClickListener( new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				Intent intent = new Intent(RssDemoActivity.this, DetailsActivity.class);
+				intent.putExtra("post_id", id);
+				startActivity( intent );
+			}
+			
+		});
 		
 		// Initialize the loader
 		getSupportLoaderManager().initLoader(47, null, this);

@@ -46,12 +46,6 @@ public class ContentConsumerDemoActivity extends ListActivity {
 		@Override
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 
-			String out="***: ";
-			for(String column: cursor.getColumnNames()) {
-				out += " "+column;
-			}
-			Log.d("ContentDemo", out );
-
 			if (view.getId() != R.id.text_value)
 				// No custom binding necessary
 				return false;
